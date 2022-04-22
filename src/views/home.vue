@@ -41,9 +41,14 @@ const articles = ref([]),
     cates = ref([]);
 
 onMounted(() => {
+    
     axios(`/article?pageNo=1&pageSize=100`).then(res => {
         articles.value = res.data.list;
-    });
+    }).catch(() => {
+        axios(`/_next/data/article.json`).then(res => {
+            articles.value = res.data.list;
+        });
+    })
     axios(`/_next/data/archive.json`).then(res => {
         latestArticles.value = res.pageProps.list.sort((a, b) => b.readCount - a.readCount);
     });
