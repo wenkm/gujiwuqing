@@ -1,1 +1,5 @@
-# huijs作者博客
+# hui博客
+
+预览：<http://hui.k5m.cn>
+
+备份：<http://blog.k5m.cn>
