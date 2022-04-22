@@ -1,0 +1,128 @@
+<!--
+* @Author: Kevin
+* @Date: 2022-04-22 15:04:39
+* @Description: 归档
+-->
+
+<template>
+    <div class="archive">
+        <div class="item" v-for="archive in archives">
+            <div class="date">{{archive.date}}</div>
+            <div class="list">
+                <div class="article" v-for="item in archive.list">
+                    <span @click="router.push(`/article/${item.id}`)">{{item.title}} <em>{{item.summary}}</em></span>
+                    <span>{{formatDate(item.createdAt, true)}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script setup>
+import {ref, onMounted} from 'vue';
+import axios from '@/axios';
+import {useRouter} from 'vue-router';
+const router = useRouter();
+const archives = ref([]);
+onMounted(() => {
+    axios(`/_next/data/archive.json`).then(res => {
+        let arr = [];
+        res.pageProps.list.map(item => {
+            const d = formatDate(item.createdAt);
+            const index = arr.findIndex(_item => _item.date === d);
+            if (index > -1) {
+                arr[index].list.push(item);
+            } else {
+                arr.push({
+                    date: d,
+                    list: [item]
+                });
+            }
+        });
+        archives.value = arr;
+
+        // archives.value = ;
+    });
+})
+
+function formatDate(date, ymd) {
+    const _date = new Date(date);
+    return ymd ? `${_date.getFullYear()}-${_date.getMonth() + 1}-${_date.getDate()}` : `${_date.getFullYear()}.${_date.getMonth() + 1}`;
+}
+</script>
+<style lang="less">
+.archive{
+    .item{
+        margin-bottom: var(--gap);
+        position: relative;
+        &:nth-last-child(1){
+            &:after{
+                display: none;
+            }
+        }
+        &:before{
+            content: '';
+            position: absolute;
+            top: var(--gap-small);
+            left: 86px;
+            width: 11px;
+            height: 11px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            z-index: 5;
+        }
+        &:after{
+            content: '';
+            position: absolute;
+            top: var(--gap-small);
+            left: calc(85px + 11px / 2);
+            width: 1px;
+            height: calc(100% + var(--gap));
+            background-color: var(--border);
+        }
+        .date{
+            color: var(--primary);
+            position: absolute;
+            top: var(--gap-small);
+            width: 80px;
+            text-align: right;
+            font-size: var(--large);
+            font-weight: bold;
+        }
+        .list{
+            margin-left: calc(80px + var(--gap));
+            .article{
+                background-color: var(--background);
+                border-radius: var(--radius);
+                padding: var(--gap-small);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--gap-small);
+                span{
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    width: calc(100% - 100px);
+                    em{
+                        font-style: normal;
+                        opacity: 0.5;
+                        color: var(--front) !important;
+                        font-size: var(--small);
+                    }
+                    &:nth-child(1){
+                        cursor: pointer;
+                        &:hover{
+                            color: var(--primary);
+                        }
+                    }
+                    &:nth-child(2){
+                        opacity: 0.5;
+                        display: inline-block;
+                        width: 80px;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
