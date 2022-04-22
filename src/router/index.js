@@ -3,10 +3,10 @@
 * @Date: 2022-04-22 13:00:56
 * @Description: 路由配置
 */
-import {createRouter, createWebHashHistory} from 'vue-router';
+import {createRouter, createMemoryHistory} from 'vue-router';
 import Home from '@/views/home.vue';
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createMemoryHistory(),
     routes: [
         {
             path: '/',
