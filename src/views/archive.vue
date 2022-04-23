@@ -10,7 +10,7 @@
             <div class="date">{{archive.date}}</div>
             <div class="list">
                 <div class="article" v-for="item in archive.list">
-                    <span @click="router.push(`/article/${item.id}`)">{{item.title}} <em>{{item.summary}}</em></span>
+                    <span @click="router.push(`/view/${item.id}`)">{{item.title}} <em>{{item.summary}}</em></span>
                     <span>{{formatDate(item.createdAt, true)}}</span>
                 </div>
             </div>
@@ -63,21 +63,23 @@ function formatDate(date, ymd) {
             content: '';
             position: absolute;
             top: var(--gap-small);
-            left: 86px;
-            width: 11px;
-            height: 11px;
+            left: 96px;
+            width: 10px;
+            height: 10px;
             background-color: var(--primary);
             border-radius: 50%;
             z-index: 5;
+            transition: background-color 0.5s;
         }
         &:after{
             content: '';
             position: absolute;
             top: var(--gap-small);
-            left: calc(85px + 11px / 2);
+            left: calc(95px + 11px / 2);
             width: 1px;
             height: calc(100% + var(--gap));
             background-color: var(--border);
+            transition: background-color 0.5s;
         }
         .date{
             color: var(--primary);
@@ -89,7 +91,7 @@ function formatDate(date, ymd) {
             font-weight: bold;
         }
         .list{
-            margin-left: calc(80px + var(--gap));
+            margin-left: calc(100px + var(--gap));
             .article{
                 background-color: var(--background);
                 border-radius: var(--radius);
@@ -98,6 +100,7 @@ function formatDate(date, ymd) {
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: var(--gap-small);
+                transition: background-color 0.5s;
                 span{
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -108,6 +111,7 @@ function formatDate(date, ymd) {
                         opacity: 0.5;
                         color: var(--front) !important;
                         font-size: var(--small);
+                        transition: color 0.5s;
                     }
                     &:nth-child(1){
                         cursor: pointer;

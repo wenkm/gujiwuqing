@@ -1,14 +1,23 @@
 // out: null
 @import './_var.less';
+@font-face {
+    font-family: 'Fira Code';
+    src: url('@/assets/fonts/woff2/FiraCode-Regular.woff2') format('woff2'),
+        url("@/assets/fonts/woff/FiraCode-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
 html, body, ul, li, p, h1, h2, h3, h4, section, nav{
     margin: 0;
     padding: 0;
     font-size: var(--normal);
 }
 html, body{
+    min-height: 100vh;
     background-color: var(--body);
     font-family: Arial, Helvetica, sans-serif, 'Microsoft Yahei';
     color: var(--front);
+    transition: background 0.5s, color 0.5s;
 }
 ul, li{
     list-style: none;
@@ -16,6 +25,7 @@ ul, li{
 a{
     text-decoration: none;
     color: var(--front);
+    transition: color 0.5s;
 }
 
 #header{
@@ -25,15 +35,21 @@ a{
     width: 100%;
     height: var(--header-height);
     line-height: var(--header-height);
-    background: var(--primary);
+    background: linear-gradient(30deg, var(--primary) 50%, var(--secondary) 100%);
     z-index: 100;
-    display: grid;
-    grid-template-columns: 1fr 50% 80px;
-    padding: 0 var(--gap);
     margin-bottom: var(--gap);
+    .wrapper{
+        width: 95%;
+        margin: 0 auto;
+        max-width: 1200px;
+        display: flex;
+        gap: var(--gap);
+        position: relative;
+    }
     .logo{
         color: var(--background);
         font-weight: bold;
+        transition: color 0.5s;
     }
     nav{
         display: flex;
@@ -45,10 +61,18 @@ a{
         margin-right: var(--gap);
         a{
             color: var(--background);
+            transition: color 0.5s;
         }
     }
+    .meta{
+        position: absolute;
+        right: 0;
+        right: 0;
+        width: 100px;
+        height: 100%;
+    }
     .mode{
-        width: 25px;
+        width: 100%;
         height: 100%;
         position: relative;
         overflow: hidden;
@@ -56,7 +80,7 @@ a{
         .sun, .moon{
             position: absolute;
             top: 3px;
-            left: 0;
+            left: 40px;
             transition: 0.5s;
             transform-origin: 50% 100%;
         }
@@ -66,11 +90,13 @@ a{
             }
             .moon{
                 transform: rotate(.25turn);
+                opacity: 0;
             }
         }
         &.night{
             .sun{
                 transform: rotate(-.25turn);
+                opacity: 0;
             }
             .moon{
                 transform: rotate(0turn);
@@ -96,6 +122,7 @@ a{
         grid-template-columns: 90px 1fr;
         gap: var(--gap);
         position: relative;
+        transition: background 0.5s;
         .image{
             width: 90px;
             height: 90px;
@@ -109,13 +136,12 @@ a{
             }
         }
         .title{
-            cursor: pointer;
-            &:hover{
+            a:hover{
                 color: var(--primary);
             }
         }
         .date{
-            opacity: 0.1;
+            opacity: 0.3;
             position: absolute;
             top: var(--gap-small);
             right: var(--gap-small);
@@ -141,10 +167,20 @@ a{
 }
 #footer{
     text-align: center;
-    padding: var(--gap);
-    border-top: 1px solid var(--primary);
+    padding: var(--gap) 0;
     background-color: var(--background);
     margin-top: calc(var(--gap) * 2);
+    position: relative;
+    transition: background-color 0.5s;
+    &:before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, var(--primary) 50%, var(--secondary) 100%);
+    }
 }
 .ink{
     position: relative;

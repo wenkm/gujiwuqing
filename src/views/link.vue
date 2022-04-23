@@ -52,6 +52,7 @@ function errorHandle(index) {
     grid-template-columns: 1fr 1fr;
     gap: var(--gap);
     margin-bottom: var(--gap);
+    transition: background-color 0.5s;
     .item{
         position: relative;
         height: calc(var(--logoWidth));
@@ -91,6 +92,7 @@ function errorHandle(index) {
             border-radius: var(--radius);
             overflow: hidden;
             border: solid 1px var(--border);
+            transition: border-color 0.5s;
             .name{
                 padding: var(--gap-small) 0;
             }
@@ -125,6 +127,7 @@ function errorHandle(index) {
     border-radius: var(--radius);
     padding: var(--gap);
     line-height: 2;
+    transition: background-color 0.5s;
     p{
         opacity: 0.5;
     }
