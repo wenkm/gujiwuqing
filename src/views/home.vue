@@ -136,6 +136,7 @@ function backHandle() {
                 height: 100%;
                 background-color: var(--body);
                 opacity: 0.5;
+                transition: background-color 0.5s;
             }
             &.show{
                 height: 40px;
