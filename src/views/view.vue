@@ -54,6 +54,8 @@ function markdown() {
         z-index: 5;
         backdrop-filter: blur(10px) saturate(300%);
         padding: var(--gap) 0;
+        border-radius: var(--radius) var(--radius) 0 0;
+        overflow: hidden;
         &:after{
             content: '';
             position: absolute;

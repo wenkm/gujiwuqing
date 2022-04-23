@@ -19,29 +19,24 @@
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
-import axios from '@/axios';
 import {useRouter} from 'vue-router';
 const router = useRouter();
 const archives = ref([]);
 onMounted(() => {
-    axios(`/_next/data/archive.json`).then(res => {
-        let arr = [];
-        res.pageProps.list.map(item => {
-            const d = formatDate(item.createdAt);
-            const index = arr.findIndex(_item => _item.date === d);
-            if (index > -1) {
-                arr[index].list.push(item);
-            } else {
-                arr.push({
-                    date: d,
-                    list: [item]
-                });
-            }
-        });
-        archives.value = arr;
-
-        // archives.value = ;
+    let arr = [];
+    JSON.parse(sessionStorage.getItem('articles')).map(item => {
+        const d = formatDate(item.createdAt);
+        const index = arr.findIndex(_item => _item.date === d);
+        if (index > -1) {
+            arr[index].list.push(item);
+        } else {
+            arr.push({
+                date: d,
+                list: [item]
+            });
+        }
     });
+    archives.value = arr.sort((a, b) => new Date(b.date) - new Date(a.date));
 })
 
 function formatDate(date, ymd) {

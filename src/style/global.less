@@ -57,11 +57,34 @@ a{
     }
     ul{
         display: flex;
-        gap: var(--gap);
         margin-right: var(--gap);
         a{
             color: var(--background);
             transition: color 0.5s;
+            position: relative;
+            z-index: 5;
+            display: block;
+        }
+        li{
+            position: relative;
+            padding: 0 var(--gap);
+            &.current{
+                &:before{
+                    content: '';
+                    position: absolute;
+                    top: 5px;
+                    left: 0;
+                    right: 0;
+                    bottom: 5px;
+                    background-color: var(--background);
+                    border-radius: var(--radius);
+                    transition: background-color 0.5s;
+                }
+                a{
+                    color: var(--front);
+                    animation: nav-active .5s forwards;
+                }
+            }
         }
     }
     .meta{
@@ -122,7 +145,9 @@ a{
         grid-template-columns: 90px 1fr;
         gap: var(--gap);
         position: relative;
-        transition: background 0.5s;
+        width: 100%;
+        box-sizing: border-box;
+        transition: background 0.5s, opacity .5s, transform .5s;
         .image{
             width: 90px;
             height: 90px;
@@ -145,15 +170,18 @@ a{
             position: absolute;
             top: var(--gap-small);
             right: var(--gap-small);
+            font-size: var(--small);
         }
         .meta{
             display: flex;
             gap: var(--gap-small);
             font-size: var(--small);
             padding: var(--gap-small) 0;
-            span{
+            a{
                 color: var(--primary);
-                cursor: pointer;
+                &:hover{
+                    opacity: 0.8;
+                }
             }
         }
         .desc{
@@ -194,5 +222,21 @@ a{
         border-radius: var(--radius);
         width: 3px;
         height: 12px;
+    }
+}
+
+.filter-enter-from,
+.filter-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.filter-leave-active {
+    position: absolute;
+}
+
+@keyframes nav-active {
+    50%{
+        transform: translate(0, 5px);
     }
 }

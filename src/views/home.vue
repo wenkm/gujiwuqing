@@ -1,7 +1,13 @@
 <template>
     <div class="home">
         <main>
-            <article-item v-for="item in articles" :article="item"></article-item>
+            <div class="header" :class="{show: isFilter}">
+                <div class="back" @click="backHandle"></div>
+                <span>{{filter}}</span>
+            </div>
+            <transition-group name="filter">
+                <article-item v-for="item in articles" :key="item.id" :article="item" @filter="filterHandle"></article-item>
+            </transition-group>
         </main>
         <aside>
             <div class="widget">
@@ -9,7 +15,7 @@
                 <div class="content">
                     <ul>
                         <li v-for="item in cates">
-                            <a :href="`/cate/${item.id}`" @click.prevent="router.push(`/cate/${item.id}`)">
+                            <a :href="`/cate/${item.id}`" @click.prevent="filterHandle('cate', item)">
                                 <span>{{ item.name }}</span>
                                 <span class="count">{{item.count}}</span>
                             </a>
@@ -23,7 +29,7 @@
                     <ul>
                         <template v-for="item, index in tags">
                             <li v-if="index < 5">
-                                <a :href="`/cate/${item.id}`" @click.prevent="router.push(`/tag/${item.id}`)">
+                                <a :href="`/cate/${item.id}`" @click.prevent="filterHandle('tag', item)">
                                     <span>{{item.name}}</span>
                                     <span class="count">{{ item.count }}</span>
                                 </a>
@@ -57,7 +63,9 @@ const router = useRouter();
 const articles = ref([]),
     hotArticles = ref([]),
     cates = ref([]),
-    tags = ref([]);
+    tags = ref([]),
+    isFilter = ref(false),
+    filter = ref('');
 
 onMounted(() => {
     articles.value = JSON.parse(sessionStorage.getItem('articles'));
@@ -83,12 +91,92 @@ function unique(arr) {
     return res.map(item => Object.assign({count: temp[item.id]}, item)).sort((a, b) => b.count - a.count);
 }
 
+function filterHandle(type, {id, name}) {
+    isFilter.value = true;
+    if (type === 'cate') {
+        filter.value = name;
+        articles.value = JSON.parse(sessionStorage.getItem('articles')).filter(item => item.categorys.some(cate => cate.id === id));
+    } else if (type === 'tag') {
+        filter.value = name;
+        articles.value = JSON.parse(sessionStorage.getItem('articles')).filter(item => item.tags.some(tag => tag.id === id));
+    }
+}
+
+function backHandle() {
+    isFilter.value = false;
+    articles.value = JSON.parse(sessionStorage.getItem('articles'))
+}
+
 </script>
 <style lang="less">
 .home{
     display: grid;
     grid-template-columns: 1fr 250px;
     gap: var(--gap);
+    main{
+        position: relative;
+        .header{
+            transition: 0.5s;
+            display: flex;
+            align-items: center;
+            gap: var(--gap-small);
+            height: 0;
+            overflow: hidden;
+            position: sticky;
+            top: calc(var(--header-height));
+            left: 0;
+            z-index: 5;
+            backdrop-filter: blur(10px) saturate(180%);
+            &:before{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--body);
+                opacity: 0.5;
+            }
+            &.show{
+                height: 40px;
+                transition-delay: 0s;
+                .back{
+                    opacity: 1;
+                    &:before{
+                        transition-delay: .35s;
+                        transform: rotate(45deg);
+                    }
+                    &:after{
+                        transition-delay: .35s;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+            .back{
+                width: 20px;
+                height: 20px;
+                position: relative;
+                cursor: pointer;
+                transition-delay: 0.5s;
+                opacity: 0;
+                transition: opacity 0.5s;
+                &:before, &:after{
+                    content: '';
+                    position: absolute;
+                    width: 50%;
+                    height: 1px;
+                    top: 50%;
+                    left: 25%;
+                    background-color: var(--front);
+                    transform-origin: 0 50%;
+                    transition: background-color 0.5s, transform 0.5s;
+                }
+            }
+            span{
+                position: relative;
+            }
+        }
+    }
     aside{
         .widget{
             margin-bottom: var(--gap);

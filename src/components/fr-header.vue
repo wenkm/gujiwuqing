@@ -4,10 +4,10 @@
             <div class="logo">{{config.SITE_NAME}}</div>
             <nav>
                 <ul>
-                    <li><router-link to="/">Home</router-link></li>
-                    <li><router-link to="/archive">归档</router-link></li>
-                    <li><router-link to="/link">友链</router-link></li>
-                    <li><router-link to="/about">关于我</router-link></li>
+                    <li :class="{current: route.path === '/'}"><router-link to="/">Home</router-link></li>
+                    <li :class="{current: route.path === '/archive'}"><router-link to="/archive">归档</router-link></li>
+                    <li :class="{current: route.path === '/link'}"><router-link to="/link">友链</router-link></li>
+                    <li :class="{current: route.path === '/about'}"><router-link to="/about">关于我</router-link></li>
                 </ul>
             </nav>
             <div class="meta">
@@ -21,6 +21,8 @@
 </template>
 <script setup>
 import {getCurrentInstance, ref} from 'vue';
+import {useRoute} from 'vue-router';
+const route = useRoute();
 const {appContext: {app: {config: {globalProperties: {config}}}}} = getCurrentInstance();
 const mode = ref('day');
 function modeHandle() {
