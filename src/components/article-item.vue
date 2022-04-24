@@ -11,7 +11,7 @@
         </div>
         <div class="infos">
             <div class="title"><a :href="`/view/${article.id}`" @click.prevent="router.push(`/view/${article.id}`)">{{ article.title }}</a></div>
-            <div class="date">{{ formatDate(article.updatedAt) }}</div>
+            <div class="date">{{ formatTime(article.updatedAt, 'yyyy-MM-dd') }}</div>
             <div class="meta">
                 <a :href="`/cate/${cate.id}`" @click.prevent="filterHandle('cate', cate)" class="category" v-for="cate in article.categorys">{{ cate.name }}</a>
                 <a :href="`/tag/${tag.id}`"  @click.prevent="filterHandle('tag', tag)" class="tags" v-for="tag in article.tags">{{ tag.name }}</a>
@@ -22,15 +22,12 @@
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import {formatTime} from '@/utils';
 const router = useRouter();
 const props = defineProps(['article']);
 const emits = defineEmits(['filter']);
 const defaultImg = new URL('../assets/logo.png', import.meta.url).href;
 
-function formatDate(date) {
-    const d = new Date(date);
-    return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-}
 function errorHandle() {
     props.article.cover = defaultImg;
 }

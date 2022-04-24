@@ -11,7 +11,7 @@
             <div class="list">
                 <div class="article" v-for="item in archive.list">
                     <span @click="router.push(`/view/${item.id}`)">{{item.title}} <em>{{item.summary}}</em></span>
-                    <span>{{formatDate(item.createdAt, true)}}</span>
+                    <span>{{formatTime(item.createdAt, 'yyyy-MM-dd')}}</span>
                 </div>
             </div>
         </div>
@@ -20,12 +20,13 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import {useRouter} from 'vue-router';
+import {formatTime} from '@/utils';
 const router = useRouter();
 const archives = ref([]);
 onMounted(() => {
     let arr = [];
     JSON.parse(sessionStorage.getItem('articles')).map(item => {
-        const d = formatDate(item.createdAt);
+        const d = formatTime(item.createdAt, 'yyyy.MM');
         const index = arr.findIndex(_item => _item.date === d);
         if (index > -1) {
             arr[index].list.push(item);
@@ -38,11 +39,6 @@ onMounted(() => {
     });
     archives.value = arr.sort((a, b) => new Date(b.date) - new Date(a.date));
 })
-
-function formatDate(date, ymd) {
-    const _date = new Date(date);
-    return ymd ? `${_date.getFullYear()}-${_date.getMonth() + 1}-${_date.getDate()}` : `${_date.getFullYear()}.${_date.getMonth() + 1}`;
-}
 </script>
 <style lang="less">
 .archive{
@@ -117,7 +113,8 @@ function formatDate(date, ymd) {
                     &:nth-child(2){
                         opacity: 0.5;
                         display: inline-block;
-                        width: 80px;
+                        width: 70px;
+                        font-size: var(--small);
                     }
                 }
             }
