@@ -93,19 +93,24 @@ a{
         right: 0;
         width: 100px;
         height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--gap);
     }
     .mode{
-        width: 100%;
-        height: 100%;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         cursor: pointer;
         .sun, .moon{
             position: absolute;
-            top: 3px;
-            left: 40px;
+            top: 0;
+            left: 0;
             transition: 1s cubic-bezier(1, 0, 0, 1);
-            transform-origin: 50% 100%;
+            transform-origin: 50% 150%;
         }
         &.day{
             .sun{
@@ -127,6 +132,71 @@ a{
         }
         g, path{
             stroke: var(--background);
+        }
+    }
+    .menu-switcher{
+        position: relative;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        overflow: hidden;
+        display: none;
+        &:before, &:after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--background);
+            border-radius: var(--radius);
+            transition: transform .5s cubic-bezier(1, 0, 0, 1);
+        }
+        &:before{
+            top: 0;
+        }
+        &:after{
+            bottom: 0;
+        }
+        .menu-switcher-inner{
+            width: 100%;
+            height: 100%;
+            &:before, &:after{
+                content: '';
+                position: absolute;
+                width: 70%;
+                height: 2px;
+                background-color: var(--background);
+                border-radius: var(--radius);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                transition: transform .5s cubic-bezier(1, 0, 0, 1), width .5s cubic-bezier(1, 0, 0, 1);
+            }
+        }
+    }
+    &.show-menu{
+        nav{
+            height: auto;
+            ul{
+                transform: translate(0, 0);
+            }
+        }
+        .menu-switcher{
+            &:before{
+                transform: translate(-100%, 0);
+            }
+            &:after{
+                transform: translate(100%, 0);
+            }
+        }
+        .menu-switcher-inner{
+            &:before{
+                width: 100%;
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+            &:after{
+                width: 100%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+            }
         }
     }
 }
@@ -238,5 +308,43 @@ a{
 @keyframes nav-active {
     50%{
         transform: translate(0, 5px);
+    }
+}
+
+@media screen and(max-width: 560px) {
+    #header{
+        nav{
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background-color: var(--background);
+            display: block;
+            box-shadow: 0 5px 10px rgb(0 0 0 / .15);
+            border-radius: 0 0 var(--radius) var(--radius);
+            height: 0;
+            overflow: hidden;
+        }
+        ul{
+            display: block;
+            transform: translate(0, -100%);
+            transition: transform 0.5s;
+            a{
+                color: var(--front);
+            }
+            li{
+                &.current{
+                    &:before{
+                        display: none;
+                    }
+                    a{
+                        color: var(--primary) !important;
+                    }
+                }
+            }
+        }
+        .menu-switcher{
+            display: block;
+        }
     }
 }
