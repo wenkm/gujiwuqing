@@ -21,7 +21,6 @@
     </div>
 </template>
 <script setup>
-import {defineEmits} from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const props = defineProps(['article']);
