@@ -4,6 +4,5 @@
     </footer>
 </template>
 <script setup>
-import {getCurrentInstance} from 'vue';
-const {appContext: {app: {config: {globalProperties: {config}}}}} = getCurrentInstance();
+import config  from '@/config';
 </script>

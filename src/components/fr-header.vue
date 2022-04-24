@@ -20,10 +20,10 @@
     </header>    
 </template>
 <script setup>
-import {getCurrentInstance, ref} from 'vue';
+import {ref} from 'vue';
 import {useRoute} from 'vue-router';
+import config  from '@/config';
 const route = useRoute();
-const {appContext: {app: {config: {globalProperties: {config}}}}} = getCurrentInstance();
 const mode = ref('day');
 function modeHandle() {
     mode.value = mode.value === 'day' ? 'night' : 'day';

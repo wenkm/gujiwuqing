@@ -18,15 +18,16 @@
     <div class="link-tips">
         <p>如果您想要互换友链，可以参考以下信息将本站信息添加到您的网站上并发送邮件给我，非常期待你的友链！</p>
         <p>邮件地址：15279279713@163.com或者1797101134@qq.com</p>
-        <p>网站名称:山海亦有归期-技术博客</p>
-        <p>网站地址:https://gujiwuqing.top/</p>
-        <p>网站描述:身为蝼蚁，当有鸿鹄之志</p>
-        <p>Logo地址:https://cloud.gujiwuqing.top/i/2022/03/21/vk3n8w.jpeg</p>
+        <p>网站名称：{{config.SITE_NAME}}-技术博客</p>
+        <p>网站地址：{{config.SITE_URL}}</p>
+        <p>网站描述：身为蝼蚁，当有鸿鹄之志</p>
+        <p>Logo地址：https://cloud.gujiwuqing.top/i/2022/03/21/vk3n8w.jpeg</p>
     </div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
 import axios from '@/axios';
+import config from '@/config';
 const links = ref([]);
 const defaultImg = new URL('../assets/logo.png', import.meta.url).href;
 onMounted(() => {
