@@ -69,15 +69,16 @@ onMounted(() => {
     span {
         display: inline-block;
         opacity: 0;
-        transform: translate(0, 20px);
-        transition: 0.3s ease-out;
+        transform-origin: 0 0;
+        transform: translate(0, 20px) rotate(45deg);
+        transition: 0.5s ease-out;
     }
 
     .loopAni(@n, @i: 1) when (@i < @n) {
         .ani {
             &:nth-child(@{i}) {
                 span {
-                    transition-delay: 0.02s * @i;
+                    transition-delay: 0.05s * @i;
                 }
             }
         }
@@ -90,7 +91,7 @@ onMounted(() => {
     &.loaded {
         .ani span {
             opacity: 1;
-            transform: translate(0, 0);
+            transform: translate(0, 0) rotate(0);
         }
     }
 }
