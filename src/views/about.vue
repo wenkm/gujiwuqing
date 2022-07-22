@@ -9,7 +9,7 @@
         <template v-for="info in infos">
             <h2 class="ani ink"><span>{{ info.title }}</span></h2>
             <div class="content">
-                <p class="ani" v-for="item in info.content"><span>{{ item }}</span></p>
+                <p class="ani" v-for="item in info.content"><span v-html="item"></span></p>
             </div>
         </template>
     </div>
@@ -25,7 +25,7 @@ const infos = [
             `昵称：${config.NICK_NAME}`,
             `座右铭：${config.MOTTO}`,
             `码云：${config.GITEE}`,
-            `Github：${config.GITHUB}`,
+            `Github：${config.GITHUB} <a href="${config.GITHUB}">#</a>`,
             `邮箱：${config.EMAIL}`,
             `籍贯：${config.HOMETOWN}`,
             `现居：${config.CURRENT_ADDRESS}`,
